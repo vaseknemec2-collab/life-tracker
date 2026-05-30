@@ -88,7 +88,7 @@ h2 {
 
 .row button:hover {
     transform: scale(1.05);
-    background: var(--lime-dark);
+    /* background: var(--lime-dark); */
 }
 
 ul {
@@ -132,6 +132,35 @@ ul li span:hover {
     background: rgba(183, 241, 113, 0.25);
     color: var(--text);
     transform: scale(1.1);
+}
+
+.habit {
+    background: #fafafa;
+    border: 1px solid #eee;
+    padding: 14px;
+    margin: 10px 0;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.habit button {
+    border: none;
+    padding: 8px 12px;
+    border-radius: 10px;
+    background: #b7f171;
+    cursor: pointer;
+}
+
+.habit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px var(--shadow);
+}
+
+.done {
+    background: #b7f171;
+    text-decoration: line-through;
+    opacity: 0.7;
 }
 
 @media (max-width: 600px) {

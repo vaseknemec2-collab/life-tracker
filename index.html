@@ -15,8 +15,22 @@
                 <button onclick="addTask()">add</button>
             </div>
             <ul id="list-container"></ul>
+
+            <h2>Habits</h2>
+
+            <div id="habits">
+                <div class="habit habit-water">
+                    💧 Water: <span id="waterValue">0</span>/2500 ml
+                        <button onclick="addWater()">+250 ml</button>
+                </div>
+                <div class="habit habit-gym" onclick="gymDone()">🏋️ Gym</div>
+                <div class="habit habit-reading">
+                    📖 Reading: <span id="readingValue">0</span>/30 min
+                    <button onclick="addReading()">+5 min</button>
+                </div>
+            </div>
         </div>
     </div>
-    <script src="app.js"></script>
+    <script src="app.js"></script>  
 </body>
 </html>
