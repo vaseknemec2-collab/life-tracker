@@ -3,34 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>my life tracker</title>
+    <title>My Life Tracker</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
     <div class="container">
+
         <div class="todo-app">
-            <h2>to do list</h2>
-            <div class="row">
-                <input type="text" id="input-box" placeholder="add your text">
-                <button onclick="addTask()">add</button>
-            </div>
-            <ul id="list-container"></ul>
 
-            <h2>Habits</h2>
+            <!-- ================= HABITS PAGE ================= -->
+            <div id="habitsPage" class="page">
 
-            <div id="habits">
-                <div class="habit habit-water">
-                    💧 Water: <span id="waterValue">0</span>/2500 ml
+                <h2>To Do List</h2>
+
+                <div class="row">
+                    <input type="text" id="input-box" placeholder="add your text">
+                    <button onclick="addTask()">add</button>
+                </div>
+
+                <ul id="list-container"></ul>
+
+                <h2>Habits</h2>
+
+                <div id="habits">
+
+                    <div class="habit habit-water">
+                        💧 Water: <span id="waterValue">0</span>/2500 ml
                         <button onclick="addWater()">+250 ml</button>
-                </div>
-                <div class="habit habit-gym" onclick="gymDone()">🏋️ Gym</div>
-                <div class="habit habit-reading">
-                    📖 Reading: <span id="readingValue">0</span>/30 min
-                    <button onclick="addReading()">+5 min</button>
+                    </div>
+
+                    <div class="habit habit-gym" onclick="gymDone()">
+                        🏋️ Gym
+                    </div>
+
+                    <div class="habit habit-reading">
+                        📖 Reading: <span id="readingValue">0</span>/30 min
+                        <button onclick="addReading()">+5 min</button>
+                    </div>
+
                 </div>
             </div>
+
+            <!-- ================= STREAK PAGE ================= -->
+            <div id="streakPage" class="page" style="display:none;">
+                <h2>🔥 Streak</h2>
+                <p style="text-align:center;">Coming soon...</p>
+            </div>
+
+            <!-- ================= PROGRESS PAGE ================= -->
+            <div id="progressPage" class="page" style="display:none;">
+                <h2>📊 Progress</h2>
+                <p style="text-align:center;">Coming soon...</p>
+            </div>
+
+            <!-- ================= SETTINGS PAGE ================= -->
+            <div id="settingsPage" class="page" style="display:none;">
+                <h2>⚙️ Settings</h2>
+                <p style="text-align:center;">Coming soon...</p>
+            </div>
+
         </div>
     </div>
-    <script src="app.js"></script>  
+
+    <!-- ================= BOTTOM NAV ================= -->
+    <div class="bottom-nav">
+
+        <div class="nav-item active" data-page="habits">Habits</div>
+        <div class="nav-item" data-page="streak">Streak</div>
+        <div class="nav-item" data-page="progress">Progress</div>
+        <div class="nav-item" data-page="settings">Settings</div>
+
+    </div>
+
+    <script src="app.js"></script>
+
 </body>
 </html>

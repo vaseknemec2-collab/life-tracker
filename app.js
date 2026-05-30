@@ -113,3 +113,35 @@ inputBox.addEventListener("keydown", function (e) {
         addTask();
     }
 });
+
+
+const pages = {
+    habits: document.getElementById("habitsPage"),
+    streak: document.getElementById("streakPage"),
+    progress: document.getElementById("progressPage"),
+    settings: document.getElementById("settingsPage")
+};
+
+const navItems = document.querySelectorAll(".nav-item");
+
+function showPage(page) {
+    Object.values(pages).forEach(p => p.style.display = "none");
+    pages[page].style.display = "block";
+}
+
+navItems.forEach(item => {
+    item.addEventListener("click", () => {
+
+        navItems.forEach(i => i.classList.remove("active"));
+        item.classList.add("active");
+
+        const page = item.dataset.page;
+        showPage(page);
+    });
+});
+
+// default page
+showPage("habits");
+
+// 👇 sem to přidej
+document.querySelector('[data-page="habits"]').classList.add("active");
