@@ -1,120 +1,55 @@
-const inputBox = document.getElementById("input-box");
-const listContainer = document.getElementById("list-container");
-
-// =====================
-// STATE
-// =====================
-let today = new Date().toDateString();
-let savedDate = localStorage.getItem("date");
-
-// reset daily data
-if (savedDate !== today) {
-    localStorage.setItem("water", 0);
-    localStorage.setItem("reading", 0);
-    localStorage.setItem("gym", "false");
-    localStorage.setItem("date", today);
-}
-
-// load state
-let water = Number(localStorage.getItem("water")) || 0;
-let reading = Number(localStorage.getItem("reading")) || 0;
-let gym = localStorage.getItem("gym") === "true";
-
-// =====================
-// INIT UI
-// =====================
-function updateUI() {
-    document.getElementById("waterValue").textContent = water;
-    document.getElementById("readingValue").textContent = reading;
-
-    document.querySelector(".habit-water")
-        .classList.toggle("done", water >= 2500);
-
-    document.querySelector(".habit-reading")
-        .classList.toggle("done", reading >= 30);
-
-    document.querySelector(".habit-gym")
-        .classList.toggle("done", gym);
-}
-
-updateUI();
-
-// =====================
-// HABITS
-// =====================
-function addWater() {
-    water += 250;
-    localStorage.setItem("water", water);
-    updateUI();
-}
-
-function addReading() {
-    reading += 5;
-    localStorage.setItem("reading", reading);
-    updateUI();
-}
-
-function gymDone() {
-    gym = !gym;
-    localStorage.setItem("gym", gym);
-    updateUI();
-}
-
 // =====================
 // TODO LIST
 // =====================
-function addTask() {
-    if (inputBox.value.trim() === '') {
-        alert("you must write something");
-        return;
-    }
+const inputBox = document.getElementById("input-box");
+const listContainer = document.getElementById("list-container");
 
-    let li = document.createElement("li");
+function addTask() {
+    if (!inputBox.value.trim()) return;
+
+    const li = document.createElement("li");
     li.textContent = inputBox.value;
 
-    let span = document.createElement("span");
-    span.textContent = "\u00d7";
+    const span = document.createElement("span");
+    span.textContent = "×";
 
     li.appendChild(span);
     listContainer.appendChild(li);
 
     inputBox.value = "";
-    saveData();
+    saveTasks();
 }
 
-listContainer.addEventListener("click", function (e) {
+listContainer.addEventListener("click", (e) => {
     if (e.target.tagName === "LI") {
         e.target.classList.toggle("checked");
-        saveData();
-    } else if (e.target.tagName === "SPAN") {
+        saveTasks();
+    }
+
+    if (e.target.tagName === "SPAN") {
         e.target.parentElement.remove();
-        saveData();
+        saveTasks();
     }
 });
 
-// =====================
-// STORAGE (TODO)
-// =====================
-function saveData() {
-    localStorage.setItem("data", listContainer.innerHTML);
+function saveTasks() {
+    localStorage.setItem("tasks", listContainer.innerHTML);
 }
 
-function loadData() {
-    listContainer.innerHTML = localStorage.getItem("data") || "";
+function loadTasks() {
+    listContainer.innerHTML = localStorage.getItem("tasks") || "";
 }
 
-loadData();
+loadTasks();
 
-// =====================
-// ENTER SUPPORT
-// =====================
-inputBox.addEventListener("keydown", function (e) {
-    if (e.key === "Enter") {
-        addTask();
-    }
+inputBox.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") addTask();
 });
 
 
+// =====================
+// NAVIGATION
+// =====================
 const pages = {
     habits: document.getElementById("habitsPage"),
     streak: document.getElementById("streakPage"),
@@ -126,7 +61,7 @@ const navItems = document.querySelectorAll(".nav-item");
 
 function showPage(page) {
     Object.values(pages).forEach(p => p.style.display = "none");
-    pages[page].style.display = "block";
+    if (pages[page]) pages[page].style.display = "block";
 }
 
 navItems.forEach(item => {
@@ -135,13 +70,122 @@ navItems.forEach(item => {
         navItems.forEach(i => i.classList.remove("active"));
         item.classList.add("active");
 
-        const page = item.dataset.page;
-        showPage(page);
+        showPage(item.dataset.page);
     });
 });
 
 // default page
 showPage("habits");
-
-// 👇 sem to přidej
 document.querySelector('[data-page="habits"]').classList.add("active");
+
+
+// =====================
+// HABITS SYSTEM
+// =====================
+let habits = JSON.parse(localStorage.getItem("habits")) || [];
+
+function saveHabits() {
+    localStorage.setItem("habits", JSON.stringify(habits));
+}
+
+function addHabit() {
+
+    const name = document.getElementById("habitName").value;
+    const goal = Number(document.getElementById("habitGoal").value);
+    const step = Number(document.getElementById("habitStep").value) || 1;
+    const unit = document.getElementById("habitUnit").value || "";
+
+    if (!name || !goal) return;
+
+    habits.push({
+        name,
+        goal,
+        step,
+        unit,
+        current: 0
+    });
+
+    localStorage.setItem("habits", JSON.stringify(habits));
+
+    renderHabits();
+    renderHabitSettings();
+
+    // clear inputs
+    document.getElementById("habitName").value = "";
+    document.getElementById("habitGoal").value = "";
+    document.getElementById("habitStep").value = "";
+    document.getElementById("habitUnit").value = "";
+}
+
+function incrementHabit(i) {
+    habits[i].current += habits[i].step;
+
+    if (habits[i].current > habits[i].goal) {
+        habits[i].current = habits[i].goal;
+    }
+
+    localStorage.setItem("habits", JSON.stringify(habits));
+    renderHabits();
+}
+
+function renderHabits() {
+    const container = document.getElementById("habits");
+    container.innerHTML = "";
+
+    habits.forEach((h, i) => {
+
+        container.innerHTML += `
+            <div class="habit ${h.current >= h.goal ? "done" : ""}">
+                ${h.name}: ${h.current}/${h.goal} ${h.unit}
+
+                <button onclick="incrementHabit(${i})">
+                    +${h.step} ${h.unit}
+                </button>
+            </div>
+        `;
+    });
+}
+renderHabits();
+
+// ===================
+// SETTINGS
+// ===================
+
+function resetAll() {
+    habits = [];
+    localStorage.clear();
+    
+    listContainer.innerHTML = "";
+
+    renderHabits();
+
+    alert("All data reset");
+}
+
+function renderHabitSettings() {
+    const container = document.getElementById("habitSettingsList");
+    container.innerHTML = "";
+
+    habits.forEach((h, i) => {
+        container.innerHTML += `
+            <div class="settings-item">
+                <span>
+                    ${h.name} (${h.goal} ${h.unit})
+                </span>
+
+                <button onclick="deleteHabit(${i})">🗑️</button>
+            </div>
+        `;
+    });
+}
+
+function deleteHabit(index) {
+    habits.splice(index, 1);
+    localStorage.setItem("habits", JSON.stringify(habits));
+
+    renderHabits();
+    renderHabitSettings();
+}
+
+renderHabits();
+renderHabitSettings();

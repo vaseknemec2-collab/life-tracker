@@ -8,75 +8,77 @@
 </head>
 <body>
 
-    <div class="container">
+<div class="container">
+<div class="todo-app">
 
-        <div class="todo-app">
+    <!-- HABITS PAGE -->
+    <div id="habitsPage" class="page">
 
-            <!-- ================= HABITS PAGE ================= -->
-            <div id="habitsPage" class="page">
+        <h2>To Do List</h2>
 
-                <h2>To Do List</h2>
-
-                <div class="row">
-                    <input type="text" id="input-box" placeholder="add your text">
-                    <button onclick="addTask()">add</button>
-                </div>
-
-                <ul id="list-container"></ul>
-
-                <h2>Habits</h2>
-
-                <div id="habits">
-
-                    <div class="habit habit-water">
-                        💧 Water: <span id="waterValue">0</span>/2500 ml
-                        <button onclick="addWater()">+250 ml</button>
-                    </div>
-
-                    <div class="habit habit-gym" onclick="gymDone()">
-                        🏋️ Gym
-                    </div>
-
-                    <div class="habit habit-reading">
-                        📖 Reading: <span id="readingValue">0</span>/30 min
-                        <button onclick="addReading()">+5 min</button>
-                    </div>
-
-                </div>
-            </div>
-
-            <!-- ================= STREAK PAGE ================= -->
-            <div id="streakPage" class="page" style="display:none;">
-                <h2>🔥 Streak</h2>
-                <p style="text-align:center;">Coming soon...</p>
-            </div>
-
-            <!-- ================= PROGRESS PAGE ================= -->
-            <div id="progressPage" class="page" style="display:none;">
-                <h2>📊 Progress</h2>
-                <p style="text-align:center;">Coming soon...</p>
-            </div>
-
-            <!-- ================= SETTINGS PAGE ================= -->
-            <div id="settingsPage" class="page" style="display:none;">
-                <h2>⚙️ Settings</h2>
-                <p style="text-align:center;">Coming soon...</p>
-            </div>
-
+        <div class="row">
+            <input type="text" id="input-box" placeholder="add your text">
+            <button onclick="addTask()">add</button>
         </div>
+
+        <ul id="list-container"></ul>
+
+        <h2>Habits</h2>
+
+        
+        <div id="habits"></div>
     </div>
-
-    <!-- ================= BOTTOM NAV ================= -->
-    <div class="bottom-nav">
-
-        <div class="nav-item active" data-page="habits">Habits</div>
-        <div class="nav-item" data-page="streak">Streak</div>
-        <div class="nav-item" data-page="progress">Progress</div>
-        <div class="nav-item" data-page="settings">Settings</div>
-
+    
+    <!-- STREAK -->
+    <div id="streakPage" class="page" style="display:none;">
+        <h2>🔥 Streak</h2>
+        <p style="text-align:center;">Coming soon...</p>
     </div>
+    
+    <!-- PROGRESS -->
+    <div id="progressPage" class="page" style="display:none;">
+        <h2>📊 Progress</h2>
+        <p style="text-align:center;">Coming soon...</p>
+    </div>
+    
+    <!-- SETTINGS -->
+    <div id="settingsPage" class="page" style="display:none;">
+        
+        <h2>⚙️ Settings</h2>
+        
+        <div class="row">
+            <input type="text" id="habitName" placeholder="Habit name">
+            <input type="number" id="habitGoal" placeholder="goal">
+            <input type="number" id="habitStep" placeholder="step (+ amount)">
+            <input type="text" id="habitUnit" placeholder="unit (ml/min/etc)">
+            <button onclick="addHabit()">add</button>
+        </div>
+        
+        <div class="settings-box">
+            
+            <h3>Manage Habits</h3>
+            <div id="habitSettingsList"></div>
+            
+            <button onclick="resetAll()" style="background:#ff4d4d; color:white;">
+                Reset ALL DATA
+            </button>
+            
+        </div>
+        
+    </div>
+    
+</div>
+</div>
 
-    <script src="app.js"></script>
+<!-- NAV -->
+<div class="bottom-nav">
+    <div class="nav-item active" data-page="habits">Habits</div>
+    <div class="nav-item" data-page="streak">Streak</div>
+    <div class="nav-item" data-page="progress">Progress</div>
+    <div class="nav-item" data-page="settings">Settings</div>
+</div>
+
+<script src="app.js"></script>
 
 </body>
 </html>
