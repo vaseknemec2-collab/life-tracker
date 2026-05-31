@@ -48,9 +48,15 @@
         
         <div class="row">
             <input type="text" id="habitName" placeholder="Habit name">
+            
+            <select id="habitType" onchange="updateHabitForm()">
+                <option value="counter">Counter</option>
+                <option value="toggle">Toggle</option>
+            </select>
+
             <input type="number" id="habitGoal" placeholder="goal">
-            <input type="number" id="habitStep" placeholder="step (+ amount)">
-            <input type="text" id="habitUnit" placeholder="unit (ml/min/etc)">
+            <input type="number" id="habitStep" placeholder="step">
+            <input type="text" id="habitUnit" placeholder="unit">
             <button onclick="addHabit()">add</button>
         </div>
         

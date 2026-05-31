@@ -91,30 +91,35 @@ function saveHabits() {
 function addHabit() {
 
     const name = document.getElementById("habitName").value;
-    const goal = Number(document.getElementById("habitGoal").value);
-    const step = Number(document.getElementById("habitStep").value) || 1;
-    const unit = document.getElementById("habitUnit").value || "";
+    const type = document.getElementById("habitType").value;
 
-    if (!name || !goal) return;
+    if (!name) return;
 
-    habits.push({
-        name,
-        goal,
-        step,
-        unit,
-        current: 0
-    });
+    if (type === "toggle") {
+        habits.push({
+            name,
+            type: "toggle",
+            done: false
+        });
+    } else {
+        const goal = Number(document.getElementById("habitGoal").value);
+        const step = Number(document.getElementById("habitStep").value) || 1;
+        const unit = document.getElementById("habitUnit").value || "";
+
+        habits.push({
+            name,
+            type: "counter",
+            goal,
+            step,
+            unit,
+            current: 0
+        });
+    }
 
     localStorage.setItem("habits", JSON.stringify(habits));
 
     renderHabits();
     renderHabitSettings();
-
-    // clear inputs
-    document.getElementById("habitName").value = "";
-    document.getElementById("habitGoal").value = "";
-    document.getElementById("habitStep").value = "";
-    document.getElementById("habitUnit").value = "";
 }
 
 function incrementHabit(i) {
@@ -134,18 +139,38 @@ function renderHabits() {
 
     habits.forEach((h, i) => {
 
-        container.innerHTML += `
-            <div class="habit ${h.current >= h.goal ? "done" : ""}">
-                ${h.name}: ${h.current}/${h.goal} ${h.unit}
+        // TOGGLE HABIT
+        if (h.type === "toggle") {
+            container.innerHTML += `
+                <div class="habit ${h.done ? "done" : ""}" onclick="toggleHabit(${i})">
+                    ${h.name}
+                </div>
+            `;
+        }
 
-                <button onclick="incrementHabit(${i})">
-                    +${h.step} ${h.unit}
-                </button>
-            </div>
-        `;
+        // COUNTER HABIT
+        else {
+            container.innerHTML += `
+                <div class="habit ${h.current >= h.goal ? "done" : ""}">
+                    ${h.name}: ${h.current}/${h.goal} ${h.unit}
+
+                    <button onclick="incrementHabit(${i})">
+                        +${h.step} ${h.unit}
+                    </button>
+                </div>
+            `;
+        }
     });
 }
 renderHabits();
+
+
+function toggleHabit(i) {
+    habits[i].done = !habits[i].done;
+
+    localStorage.setItem("habits", JSON.stringify(habits));
+    renderHabits();
+}
 
 // ===================
 // SETTINGS
@@ -187,5 +212,23 @@ function deleteHabit(index) {
     renderHabitSettings();
 }
 
+function updateHabitForm() {
+    const type = document.getElementById("habitType").value;
+
+    const goal = document.getElementById("habitGoal");
+    const step = document.getElementById("habitStep");
+    const unit = document.getElementById("habitUnit");
+
+    if (type === "toggle") {
+        goal.style.display = "none";
+        step.style.display = "none";
+        unit.style.display = "none";
+    } else {
+        goal.style.display = "block";
+        step.style.display = "block";
+        unit.style.display = "block";
+    }
+}
 renderHabits();
 renderHabitSettings();
+updateHabitForm();
