@@ -13,41 +13,36 @@
     --shadow: rgba(0, 0, 0, 0.08);
 }
 
+/* ===================== BASE ===================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial;
+}
+
 body {
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: flex-start;
+
     padding: 24px 12px;
 
     background: radial-gradient(circle at top, #ffffff, var(--bg));
     color: var(--text);
-
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial;
 }
 
-* {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial;
-}
+/* ===================== APP CARD ===================== */
+
 .container {
     width: 100%;
     max-width: 520px;
-    /* width: 100%;
-    max-width: 700px;
-    background-color: var(--terciary);
-    border-radius: 20px;
-    padding: 20px;
-    display: flex;
-    justify-content: center; */
 }
 
 .todo-app {
     width: 100%;
-    max-width: 520px;
-
     background: var(--card);
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px);
@@ -55,32 +50,60 @@ body {
     border: 1px solid var(--stroke);
     border-radius: 28px;
 
-    padding: 22px;
+    padding: 20px;
 
     box-shadow: 0 20px 40px var(--shadow);
 }
+
+/* ===================== HEADINGS ===================== */
 
 h2 {
     text-align: center;
     font-size: 1.4rem;
     font-weight: 600;
-    margin-bottom: 20px;
-}    
+    margin-bottom: 18px;
+}
 
+/* ===================== ROW SYSTEM ===================== */
 
 .row {
     display: flex;
     gap: 10px;
-    margin-bottom: 20px;
-    flex-wrap: wrap; /* 👈 důležité */
+    margin-bottom: 16px;
 }
 
-.row input {
-    height: 52px;            /* 👈 větší mobile feeling */
-    padding: 0 16px;
-    border-radius: 16px;
+/* full row (todo input) */
+.row.full {
+    background: rgba(255,255,255,0.6);
+    border: 1px solid rgba(0,0,0,0.05);
+    border-radius: 18px;
+    padding: 8px;
+    backdrop-filter: blur(10px);
+}
 
+/* settings row (multi input) */
+.row.stack {
+    flex-wrap: wrap;
+}
+
+.row.stack input,
+.row.stack select,
+.row.stack button {
+    flex: 1 1 100%;
+}
+
+/* ===================== INPUTS ===================== */
+
+.row input,
+select {
+    flex: 1;
+    height: 52px;
+
+    padding: 0 14px;
+
+    border-radius: 16px;
     border: 1px solid rgba(0,0,0,0.06);
+
     background: rgba(255,255,255,0.7);
 
     font-size: 1rem;
@@ -89,15 +112,24 @@ h2 {
     transition: 0.2s;
 }
 
-.row input:focus {
+.row input:focus,
+select:focus {
     border-color: var(--lime);
     box-shadow: 0 0 0 4px var(--lime-soft);
 }
 
+/* prevent overflow bug */
+.row input,
+.row button {
+    min-width: 0;
+}
+
+/* ===================== BUTTONS ===================== */
 
 .row button {
     height: 52px;
-    padding: 0 18px;
+
+    padding: 0 16px;
 
     border: none;
     border-radius: 16px;
@@ -115,10 +147,7 @@ h2 {
     transform: scale(0.96);
 }
 
-.row button:hover {
-    transform: scale(1.05);
-    /* background: var(--lime-dark); */
-}
+/* ===================== TODO LIST ===================== */
 
 ul {
     list-style: none;
@@ -139,9 +168,10 @@ ul li {
 
     transition: 0.2s;
 }
+
 ul li:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 15px var(--shadow);
+    box-shadow: 0 10px 25px var(--shadow);
 }
 
 ul li.checked {
@@ -149,7 +179,6 @@ ul li.checked {
     color: var(--muted);
     opacity: 0.7;
 }
-
 
 ul li span {
     cursor: pointer;
@@ -159,29 +188,31 @@ ul li span {
     color: var(--muted);
 }
 
-
 ul li span:hover {
-    background: rgba(183, 241, 113, 0.25);
+    background: var(--lime-soft);
     color: var(--text);
     transform: scale(1.1);
 }
 
+/* ===================== HABITS ===================== */
+
 .habit {
     background: rgba(255,255,255,0.6);
-    backdrop-filter: blur(12px);
-
     border: 1px solid rgba(0,0,0,0.05);
-    border-radius: 18px;
 
     padding: 14px;
     margin: 10px 0;
+
+    border-radius: 18px;
 
     display: flex;
     justify-content: space-between;
     align-items: center;
 
-    transition: 0.2s;
+    cursor: pointer;
     user-select: none;
+
+    transition: 0.2s;
 }
 
 .habit:active {
@@ -198,21 +229,62 @@ ul li span:hover {
 .habit button {
     border: none;
     padding: 8px 12px;
-    border-radius: 10px;
-    background: #b7f171;
+
+    border-radius: 999px; /* 👈 pill shape */
+
+    background: rgba(166, 255, 77, 0.25);
+    color: #1c1c1e;
+
+    font-weight: 600;
+    font-size: 0.85rem;
+
     cursor: pointer;
+
+    transition: 0.2s;
+
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    border: 1px solid rgba(166, 255, 77, 0.4);
 }
 
-.habit:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 15px var(--shadow);
+.habit button:hover {
+    background: rgba(166, 255, 77, 0.4);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 18px rgba(166, 255, 77, 0.25);
 }
 
-.done {
-    background: #b7f171;
-    text-decoration: line-through;
-    opacity: 0.7;
+.habit button:active {
+    transform: scale(0.95);
+    box-shadow: 0 4px 10px rgba(166, 255, 77, 0.2);
 }
+
+.habit button {
+    background: linear-gradient(
+        135deg,
+        rgba(166, 255, 77, 0.35),
+        rgba(166, 255, 77, 0.15)
+    );
+}
+/* ===================== SETTINGS ===================== */
+
+.settings-box {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.settings-box button {
+    padding: 12px;
+    border: none;
+    border-radius: 12px;
+    background: #eee;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+/* ===================== BOTTOM NAV ===================== */
 
 .bottom-nav {
     width: 92%;
@@ -242,121 +314,41 @@ ul li span:hover {
     opacity: 0.5;
     cursor: pointer;
     transition: 0.2s;
+
     padding: 8px 12px;
     border-radius: 12px;
 }
 
 .nav-item.active {
     opacity: 1;
-    background: rgba(183, 241, 113, 0.2);
-    color: #1c1c1e;
+    background: var(--lime-soft);
+    color: var(--text);
 }
 
+/* ===================== MOBILE ===================== */
+
 @media (max-width: 600px) {
+
     body {
-        padding: 20px 10px;
-        align-items: flex-start;
-    }
-
-    .container {
-        padding: 15px;
-        border-radius: 15px;
-    }
-}
-
-@media (max-width: 600px) {
-    .row {
-        flex-direction: column;
-    }
-
-    .row button {
-        width: 100%;
-    }
-}
-
-button, ul li span {
-    touch-action: manipulation;
-}
-
-@media (max-width: 600px) {
-    body {
-        font-size: 1.05rem;
-    }
-
-    h2 {
-        font-size: 1.3rem;
-    }
-}
-
-@media (max-width: 600px) {
-    .row button {
-        width: 100%;
-    }
-
-    .row input {
-        width: 100%;
-    }
-}
-
-@media (max-width: 600px) {
-    .row {
-        flex-direction: column;
-    }
-
-    .row input,
-    .row button {
-        width: 100%;
-        height: 54px;
+        padding: 16px 10px;
     }
 
     .todo-app {
         padding: 16px;
         border-radius: 22px;
     }
-}
 
-.settings-box {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin-top: 20px;
-}
+    .row {
+        flex-direction: column;
+    }
 
-.settings-box button {
-    padding: 12px;
-    border: none;
-    border-radius: 12px;
-    background: #eee;
-    cursor: pointer;
-    font-weight: 600;
-}
+    .row button,
+    .row input {
+        width: 100%;
+        height: 54px;
+    }
 
-.settings-box button:hover {
-    transform: scale(1.03);
-}
-
-.settings-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    padding: 12px;
-    margin: 10px 0;
-
-    background: #fafafa;
-    border: 1px solid #eee;
-    border-radius: 12px;
-}
-
-.settings-item button {
-    border: none;
-    background: #ff4d4d;
-    color: white;
-    padding: 6px 10px;
-    border-radius: 10px;
-    cursor: pointer;
-}
-
-.settings-item button:hover {
-    transform: scale(1.1);
+    h2 {
+        font-size: 1.2rem;
+    }
 }
