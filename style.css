@@ -72,6 +72,8 @@ h2 {
     margin-bottom: 16px;
 }
 
+
+
 /* full row (todo input) */
 .row.full {
     background: rgba(255,255,255,0.6);
@@ -341,6 +343,14 @@ ul li span:hover {
     .row {
         flex-direction: column;
     }
+    
+    .row input {
+        padding: 20px 15px;
+    }
+
+    select {
+        padding: 20px 15px;
+    }
 
     .row button,
     .row input {
@@ -348,7 +358,10 @@ ul li span:hover {
         height: 54px;
     }
 
+
+
     h2 {
         font-size: 1.2rem;
     }
 }
+
